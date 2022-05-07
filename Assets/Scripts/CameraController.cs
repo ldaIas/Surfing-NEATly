@@ -12,8 +12,10 @@ using UnityEngine;
       private bool setup;
 
       public Camera movingCam;
-
       public bool movingCamEnabled {get; set;}
+      private float camMoveSpeed = 2f;
+      private CharacterController controller;
+      private Vector3 camVelocity;
       private int _selectedCameraIndex;
       public int getSelectedCameraIndex()
       {
@@ -36,16 +38,18 @@ using UnityEngine;
             // Destroy the current object, so there is just one manager
             Destroy(gameObject);
         }
-           setup = false;
-           DisableCameras();
-           SelectCamera( 1 );
-           _selectedCameraIndex = 1;
-           movingCamEnabled = false;
-           if(Cameras.Count() > 0)
-           {
-               Cameras[1].enabled = true;
-               setup = true;
-           }
+        setup = false;
+        DisableCameras();
+        SelectCamera( 1 );
+        _selectedCameraIndex = 1;
+        movingCamEnabled = false;
+        if(Cameras.Count() > 0)
+        {
+            Cameras[1].enabled = true;
+            setup = true;
+        }
+
+        controller = gameObject.AddComponent<CharacterController>();
       }
  
       void Update()
@@ -82,26 +86,8 @@ using UnityEngine;
                     EnableMovingCamera();
                 }
             }
-            if (Input.GetKeyDown(KeyCode.W))
-            {
-                EnableMovingCamera();
-                movingCam.transform.Translate(Vector3.forward * 0.1f);
-            }
-            if (Input.GetKeyDown(KeyCode.S))
-            {
-                EnableMovingCamera();
-                movingCam.transform.Translate(Vector3.back * 0.1f);
-            }
-            if (Input.GetKeyDown(KeyCode.A))
-            {
-                EnableMovingCamera();
-                movingCam.transform.Translate(Vector3.left * 0.1f);
-            }
-            if (Input.GetKeyDown(KeyCode.D))
-            {
-                EnableMovingCamera();
-                movingCam.transform.Translate(Vector3.right * 0.1f);
-            }
+            ProcessMovement();
+            
           }
       }
 
@@ -129,6 +115,19 @@ using UnityEngine;
             Cameras[_selectedCameraIndex].enabled = true;
             movingCam.enabled = false;
             movingCamEnabled = false;
+        }
+
+
+        // Process the movement of the camera
+        public void ProcessMovement()
+        {
+            Vector3 move = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+            controller.Move(move * camMoveSpeed * Time.deltaTime);
+            if(move != Vector3.zero)
+            {
+                movingCamEnabled = true;
+                gameObject.transform.forward = move;
+            }
         }
 
       public void SelectNextCamera()
