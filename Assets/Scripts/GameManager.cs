@@ -8,8 +8,15 @@ public class GameManager : MonoBehaviour
 {
 	public static GameManager instance = null;
 	
-    private GameObject playerObj = null;
-    private GameObject ramp = null;
+    public SurfCharacter _playerCharacter;
+    public Optimizer _optimizer;
+    public CameraController _cameraController;
+    public GameObject _spawnPoint;
+
+    [HideInInspector]
+    public bool title = true;
+    [HideInInspector]
+    public bool play_or_watch;
 	
     // Called when the object is initialized
     void Awake()
@@ -30,6 +37,8 @@ public class GameManager : MonoBehaviour
 
         // Don't destroy this object when loading scenes
         DontDestroyOnLoad(gameObject);
+        _playerCharacter.enabled = false;
+        _playerCharacter.transform.localScale = new Vector3(0, 0, 0);
     }
 
     //Get this instance
@@ -41,5 +50,42 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+    }
+
+    // Set play_or_watch based on selection
+    public void SetPlayOrWatch(bool play_or_watch)
+    {
+        this.play_or_watch = play_or_watch;
+        if(play_or_watch)
+        {
+            _playerCharacter.enabled = true;
+            _playerCharacter.transform.localScale = new Vector3(1, 1, 1);
+            _playerCharacter.transform.position = _spawnPoint.transform.position;
+            _playerCharacter.transform.rotation = _spawnPoint.transform.rotation;
+            _optimizer.enabled = false;
+        }
+        else
+        {
+            _playerCharacter.enabled = false;
+            _optimizer.enabled = true;
+        }
+    }
+
+    public void toTitle()
+    {
+        title = true;
+        play_or_watch = false;
+        _playerCharacter.enabled = false;
+        _playerCharacter.transform.localScale = new Vector3(0, 0, 0);
+    }
+
+    // Reset the game if playing
+    public void Reset()
+    {
+        if(play_or_watch)
+        {
+            _playerCharacter.transform.position = _spawnPoint.transform.position;
+            _playerCharacter.viewTransform.rotation = _spawnPoint.transform.rotation;
+        }
     }
 }

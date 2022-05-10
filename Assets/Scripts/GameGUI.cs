@@ -7,6 +7,11 @@ public class GameGUI : MonoBehaviour
 {
     public Optimizer _optimizer;
     public CameraController _cameraController;
+
+    public GameManager _gameManager;
+
+    private bool _onTitle = true;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -26,7 +31,51 @@ public class GameGUI : MonoBehaviour
     {
         
     }
-    void OnGUI()
+
+    // Title screen display and buttons
+    void Title()
+    {
+        // Title
+        GUI.Box(new Rect(0, 0, Screen.width, Screen.height), "Surfing Neatly");
+
+        // Play and Watch buttons
+        if(GUI.Button(new Rect(Screen.width / 2 - 100, Screen.height / 2 - 50, 200, 100), "Play"))
+        {
+            _gameManager.SetPlayOrWatch(true);
+            _gameManager.title = false;
+        }
+        if(GUI.Button(new Rect(Screen.width / 2 - 100, Screen.height / 2 + 50, 200, 100), "Watch"))
+        {
+            _gameManager.SetPlayOrWatch(false);
+            _gameManager.title = false;
+        }
+    }
+
+    // Player GUI interface
+    void Play()
+    {
+        // Reset and return to menu buttons next to each other on the botthom of the screen
+        if(GUI.Button(new Rect(Screen.width - 100, Screen.height - 50, 100, 50), "Reset (R)"))
+        {
+            _gameManager.Reset();
+        }
+        if(GUI.Button(new Rect(0, Screen.height - 50, 100, 50), "Menu (M)"))
+        {
+            _gameManager.SetPlayOrWatch(false);
+            _gameManager.toTitle();
+        }
+        // If they press R or M they reset or go to the menu
+        if(Input.GetKeyDown(KeyCode.R))
+        {
+            _gameManager.Reset();
+        }
+        if(Input.GetKeyDown(KeyCode.M))
+        {
+            _gameManager.SetPlayOrWatch(false);
+            _gameManager.toTitle();
+        }
+    }
+    void Watch() 
     {
         if (GUI.Button(new Rect(10, 10, 100, 40), "Start EA"))
         {
@@ -78,6 +127,26 @@ public class GameGUI : MonoBehaviour
             else
             {
                 _cameraController.EnableMovingCamera();
+            }
+        }
+    }
+    void OnGUI()
+    {
+        // If the game is in the title screen, display the title screen
+        // and 'Play' or 'Watch' buttons
+        if(_gameManager.title)
+        {
+            Title();
+        }
+        else
+        {
+            if(_gameManager.play_or_watch)
+            {
+                Play();
+            }
+            else
+            {
+                Watch();
             }
         }
     }

@@ -7,11 +7,10 @@ using UnityEngine;
   {
       
       public static CameraController instance = null;
+      public GameManager gameManager;
       public List<Camera> Cameras;
-
-      private bool setup;
-
       public Camera movingCam;
+      public Camera TitleCam;
       public bool movingCamEnabled {get; set;}
       private float camMoveSpeed = 2f;
       private CharacterController controller;
@@ -38,57 +37,51 @@ using UnityEngine;
             // Destroy the current object, so there is just one manager
             Destroy(gameObject);
         }
-        setup = false;
         DisableCameras();
-        SelectCamera( 1 );
-        _selectedCameraIndex = 1;
         movingCamEnabled = false;
-        if(Cameras.Count() > 0)
-        {
-            Cameras[1].enabled = true;
-            setup = true;
-        }
+        _selectedCameraIndex = 0;
 
         controller = gameObject.AddComponent<CharacterController>();
       }
  
       void Update()
       {
-          if(!setup)
+          if(gameManager.title)
           {
+                TitleCam.enabled = true;
+          }
+          else
+          {
+            if(!gameManager.play_or_watch)
+            {
+                TitleCam.enabled = false;
+                SelectCamera(_selectedCameraIndex);
+                if (Input.GetKeyDown(KeyCode.C))
+                {
+                    SelectNextCamera();
+                }
+                if (Input.GetKeyDown(KeyCode.V))
+                {
+                    SelectPreviousCamera();
+                }
+                if (Input.GetKeyDown(KeyCode.F))
+                {
+                    if(movingCamEnabled)
+                    {
+                        DisableMovingCamera();
+                    }
+                    else
+                    {
+                        EnableMovingCamera();
+                    }
+                }
+                ProcessMovement();
+            }
+            else
+            {
                 DisableCameras();
-                SelectCamera( 1 );
-                _selectedCameraIndex = 1;
-                if(Cameras.Count() > 0)
-                {
-                    setup = true;
-                }
-          }
-
-          if(setup)
-          {
-            if (Input.GetKeyDown(KeyCode.C))
-            {
-                SelectNextCamera();
             }
-            if (Input.GetKeyDown(KeyCode.V))
-            {
-                SelectPreviousCamera();
-            }
-            if (Input.GetKeyDown(KeyCode.F))
-            {
-                if(movingCamEnabled)
-                {
-                    DisableMovingCamera();
-                }
-                else
-                {
-                    EnableMovingCamera();
-                }
-            }
-            ProcessMovement();
-            
-          }
+        }
       }
 
         // Enable the moving cam from the position of the current camera
@@ -156,5 +149,6 @@ using UnityEngine;
         for( int i = 0 ; i < Cameras.Count() ; i++ )
             Cameras[i].enabled = false;
         movingCam.enabled = false;
+        TitleCam.enabled = false;
       }
   }
