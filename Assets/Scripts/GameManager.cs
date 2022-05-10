@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
     public bool title = true;
     [HideInInspector]
     public bool play_or_watch;
+    private float _runTime = 0.0f;
 	
     // Called when the object is initialized
     void Awake()
@@ -50,6 +51,14 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(play_or_watch)
+        {
+            _runTime += Time.deltaTime;
+        }
+        else
+        {
+            _runTime = _optimizer.totalTime;
+        }
     }
 
     // Set play_or_watch based on selection
@@ -86,6 +95,12 @@ public class GameManager : MonoBehaviour
         {
             _playerCharacter.transform.position = _spawnPoint.transform.position;
             _playerCharacter.viewTransform.rotation = _spawnPoint.transform.rotation;
+            _runTime = 0.0f;
         }
+    }
+
+    public float getRunTime()
+    {
+        return _runTime;
     }
 }

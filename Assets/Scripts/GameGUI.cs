@@ -74,6 +74,7 @@ public class GameGUI : MonoBehaviour
             _gameManager.SetPlayOrWatch(false);
             _gameManager.toTitle();
         }
+
     }
     void Watch() 
     {
@@ -148,6 +149,12 @@ public class GameGUI : MonoBehaviour
             {
                 Watch();
             }
+            // Box showing time at top of screen
+            float time = _gameManager.getRunTime();
+            int minutes = (int)time / 60;
+            int seconds = (int)time % 60;
+            int milliseconds = (int)((time * 1000) % 1000);
+            GUI.Box(new Rect(Screen.width / 2 - 35, 0, 70, 20), string.Format("{0:00}:{1:00}:{2:000}", minutes, seconds, milliseconds));
         }
     }
 }
