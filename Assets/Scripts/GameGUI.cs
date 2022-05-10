@@ -74,6 +74,12 @@ public class GameGUI : MonoBehaviour
             _gameManager.SetPlayOrWatch(false);
             _gameManager.toTitle();
         }
+        // Box showing time at top of screen
+        float time = _gameManager.getRunTime();
+        int minutes = (int)time / 60;
+        int seconds = (int)time % 60;
+        int milliseconds = (int)((time * 1000) % 1000);
+        GUI.Box(new Rect(Screen.width / 2 - 35, 0, 70, 20), string.Format("{0:00}:{1:00}:{2:000}", minutes, seconds, milliseconds));
 
     }
     void Watch() 
@@ -89,6 +95,17 @@ public class GameGUI : MonoBehaviour
         if (GUI.Button(new Rect(10, 110, 100, 40), "Run best"))
         {
             _optimizer.RunBest();
+        }
+        if(GUI.Button(new Rect(10, 160, 100, 40), "Menu (M)"))
+        {
+            _optimizer.StopEA();
+            _gameManager.SetPlayOrWatch(false);
+            _gameManager.toTitle();
+        }
+        if(Input.GetKeyDown(KeyCode.M))
+        {
+            _gameManager.SetPlayOrWatch(false);
+            _gameManager.toTitle();
         }
 
         GUI.Button(new Rect(Screen.width - 130, 10, 120, 40), "Time scale " + Time.timeScale);
@@ -149,12 +166,7 @@ public class GameGUI : MonoBehaviour
             {
                 Watch();
             }
-            // Box showing time at top of screen
-            float time = _gameManager.getRunTime();
-            int minutes = (int)time / 60;
-            int seconds = (int)time % 60;
-            int milliseconds = (int)((time * 1000) % 1000);
-            GUI.Box(new Rect(Screen.width / 2 - 35, 0, 70, 20), string.Format("{0:00}:{1:00}:{2:000}", minutes, seconds, milliseconds));
+            
         }
     }
 }

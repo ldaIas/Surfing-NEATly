@@ -108,7 +108,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &583820827499070395
 Transform:
   m_ObjectHideFlags: 0
@@ -340,7 +340,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 583820827629464185}
   m_LocalRotation: {x: 0, y: -0, z: 0.3007059, w: -0.953717}
-  m_LocalPosition: {x: -3.2541885, y: 0.23913097, z: -0.055789948}
+  m_LocalPosition: {x: -2.79, y: 0.23913097, z: -0.055789948}
   m_LocalScale: {x: 1, y: 10, z: 1}
   m_Children: []
   m_Father: {fileID: 583820827716028747}
@@ -604,7 +604,7 @@ GameObject:
   m_Component:
   - component: {fileID: 583820827716028747}
   m_Layer: 0
-  m_Name: Basic Ramp (1) 1
+  m_Name: Basic Ramp (Scores)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -966,7 +966,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &583820828163346243
 Transform:
   m_ObjectHideFlags: 0

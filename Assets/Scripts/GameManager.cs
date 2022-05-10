@@ -16,7 +16,7 @@ public class GameManager : MonoBehaviour
     [HideInInspector]
     public bool title = true;
     [HideInInspector]
-    public bool play_or_watch;
+    public bool play_or_watch = false;
     private float _runTime = 0.0f;
 	
     // Called when the object is initialized
@@ -54,10 +54,6 @@ public class GameManager : MonoBehaviour
         if(play_or_watch)
         {
             _runTime += Time.deltaTime;
-        }
-        else
-        {
-            _runTime = _optimizer.totalTime;
         }
     }
 

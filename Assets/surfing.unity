@@ -2260,6 +2260,7 @@ MonoBehaviour:
   Trials: 1
   TrialDuration: 8
   StoppingFitness: 5000
+  EARunning: 0
   Unit: {fileID: 629753252368378181, guid: 3c16ac13b53a0a343a1a2570b841762e, type: 3}
   fpsMin: 25
   timeScale: 1
@@ -6832,6 +6833,16 @@ PrefabInstance:
     - target: {fileID: 814694765496674767, guid: 3c16ac13b53a0a343a1a2570b841762e,
         type: 3}
       propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 814694765496674767, guid: 3c16ac13b53a0a343a1a2570b841762e,
+        type: 3}
+      propertyPath: _spawnPoint
+      value: 
+      objectReference: {fileID: 1329257801}
+    - target: {fileID: 814694765496674767, guid: 3c16ac13b53a0a343a1a2570b841762e,
+        type: 3}
+      propertyPath: solidCollider
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 814694765496674767, guid: 3c16ac13b53a0a343a1a2570b841762e,
